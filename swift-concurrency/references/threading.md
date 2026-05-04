@@ -231,7 +231,9 @@ Task {
 }
 ```
 
-The delayed-retry `Task.sleep` case from PR #38 is a specialization of this same rule: the wait is usually not UI-owned, while the final mutation is.
+The delayed-retry `Task.sleep` pattern (see `performance.md` "Match Task entry isolation to its synchronous prefix") is a specialization of this same rule: the wait is usually not UI-owned, while the final mutation is.
+
+Note that `Task { @concurrent in ... }` changes the closure's isolation, so any capture of non-Sendable state from the enclosing actor must move inside the `MainActor.run { ... }` hop, or be captured weakly (e.g., `[weak self]` plus a `guard let self`) before being used there. The examples above stay safe by keeping `self` use inside `MainActor.run`. If the body needs to touch non-Sendable state directly, see `sendable.md` before reaching for `@concurrent`.
 
 ## Thread Execution Patterns
 

@@ -57,7 +57,7 @@ Task {
 }
 ```
 
-For deeper guidance and expanded examples, see `references/threading.md#choosing-task-entry-isolation`.
+For deeper guidance and expanded examples, see `threading.md#choosing-task-entry-isolation`.
 
 ## Task References
 
